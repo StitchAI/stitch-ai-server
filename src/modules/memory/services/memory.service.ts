@@ -22,16 +22,16 @@ export class MemoryService {
     param: UploadMemoryReqParamDto,
     body: UploadMemoryReqBodyDto
   ): Promise<UploadMemoryResDto> {
-    const { apiKey } = header;
+    const { apikey } = header;
     const { space } = param;
     const { message, episodicMemory, characterMemory } = body;
 
-    const hash = SHA3(`${apiKey}_${space}_${message}_${Date.now()}`, {
+    const hash = SHA3(`${apikey}_${space}_${message}_${Date.now()}`, {
       outputLength: 256,
     }).toString();
 
     const user = await this.prisma.user.findUniqueOrThrow({
-      where: { apiKey },
+      where: { apiKey: apikey },
     });
     const memorySpace = await this.prisma.memorySpace.findUniqueOrThrow({
       where: {
@@ -66,11 +66,11 @@ export class MemoryService {
     header: BaseHeaderDto,
     param: GetMemoriesInSpaceReqParamDto
   ): Promise<GetMemoriesInSpaceResDto> {
-    const { apiKey } = header;
+    const { apikey } = header;
     const { space } = param;
 
     const user = await this.prisma.user.findUniqueOrThrow({
-      where: { apiKey },
+      where: { apiKey: apikey },
     });
     const memorySpace = await this.prisma.memorySpace.findUniqueOrThrow({
       where: {

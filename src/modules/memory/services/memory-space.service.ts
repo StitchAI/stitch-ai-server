@@ -19,13 +19,13 @@ export class MemorySpaceService {
     header: BaseHeaderDto,
     body: CreateMemorySpaceReqBodyDto
   ): Promise<CreateMemorySpaceResDto> {
-    const { apiKey } = header;
+    const { apikey } = header;
     const { name } = body;
 
-    const hash = SHA3(`${apiKey}_${name}_${Date.now()}`, { outputLength: 256 }).toString();
+    const hash = SHA3(`${apikey}_${name}_${Date.now()}`, { outputLength: 256 }).toString();
 
     const user = await this.prisma.user.findUniqueOrThrow({
-      where: { apiKey },
+      where: { apiKey: apikey },
     });
     const created = await this.prisma.memorySpace.create({
       data: {
@@ -39,10 +39,10 @@ export class MemorySpaceService {
   }
 
   async getMemorySpace(header: BaseHeaderDto): Promise<GetMemorySpaceResDto> {
-    const { apiKey } = header;
+    const { apikey } = header;
 
     const user = await this.prisma.user.findUniqueOrThrow({
-      where: { apiKey },
+      where: { apiKey: apikey },
     });
 
     const memorySpaces = await this.prisma.memorySpace.findMany({
@@ -64,11 +64,11 @@ export class MemorySpaceService {
     header: BaseHeaderDto,
     param: DeleteMemorySpaceReqParamDto
   ): Promise<void> {
-    const { apiKey } = header;
+    const { apikey } = header;
     const { name } = param;
 
     const user = await this.prisma.user.findUniqueOrThrow({
-      where: { apiKey },
+      where: { apiKey: apikey },
     });
 
     await this.prisma.memorySpace.delete({

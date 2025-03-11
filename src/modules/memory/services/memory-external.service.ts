@@ -17,14 +17,14 @@ export class MemoryExternalService {
     header: BaseHeaderDto,
     body: CreateExternalMemoryReqBodyDto
   ): Promise<CreateExternalMemoryResDto> {
-    const { apiKey } = header;
+    const { apikey } = header;
     const { operator, operatorLogo, name, message, data } = body;
 
     const user = await this.prisma.user.findUniqueOrThrow({
-      where: { apiKey },
+      where: { apiKey: apikey },
     });
 
-    const hash = SHA3(`${apiKey}_${name}_${message}_${Date.now()}`, {
+    const hash = SHA3(`${apikey}_${name}_${message}_${Date.now()}`, {
       outputLength: 256,
     }).toString();
 

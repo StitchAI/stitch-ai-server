@@ -11,12 +11,13 @@ import { GetUserReqQueryDto } from '../dtos/user.dto';
 export class UserService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async getUser(headers: BaseHeaderDto, query: GetUserReqQueryDto): Promise<GetUserResDto> {
+  async getUser(header: BaseHeaderDto, query: GetUserReqQueryDto): Promise<GetUserResDto> {
+    const { apikey } = header;
     const user = await this.prisma.user.findUnique({
       where: {
         walletAddress_apiKey: {
           walletAddress: query.walletAddress,
-          apiKey: headers.apiKey,
+          apiKey: apikey,
         },
       },
     });
