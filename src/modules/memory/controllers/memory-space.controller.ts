@@ -1,7 +1,17 @@
-import { Body, Controller, Delete, Get, Headers, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Headers,
+  Param,
+  Post,
+  UseInterceptors,
+} from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { BaseHeaderDto } from '~/dtos/request.dto';
+import { PublicCorsInterceptor } from '~/interceptors/cors.interceptor';
 
 import {
   CreateMemorySpaceReqBodyDto,
@@ -17,6 +27,7 @@ export class MemorySpaceController {
   constructor(private readonly memorySpaceService: MemorySpaceService) {}
 
   @Post('space')
+  @UseInterceptors(PublicCorsInterceptor)
   @ApiOperation({ summary: '메모리 공간 생성' })
   @ApiResponse({
     status: 200,
@@ -31,6 +42,7 @@ export class MemorySpaceController {
   }
 
   @Get('space')
+  @UseInterceptors(PublicCorsInterceptor)
   @ApiOperation({ summary: '메모리 공간 목록 조회' })
   @ApiResponse({
     status: 200,
@@ -42,6 +54,7 @@ export class MemorySpaceController {
   }
 
   @Delete('space/:name')
+  @UseInterceptors(PublicCorsInterceptor)
   @ApiOperation({ summary: '메모리 공간 삭제' })
   @ApiResponse({
     status: 200,

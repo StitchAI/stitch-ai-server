@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Headers, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Headers, Param, Post, UseInterceptors } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { BaseHeaderDto } from '~/dtos/request.dto';
+import { PublicCorsInterceptor } from '~/interceptors/cors.interceptor';
 
 import {
   GetMemoriesInSpaceReqParamDto,
@@ -18,6 +19,7 @@ export class MemoryController {
   constructor(private readonly memoryService: MemoryService) {}
 
   @Post(':space')
+  @UseInterceptors(PublicCorsInterceptor)
   @ApiOperation({ summary: '메모리 업로드' })
   @ApiResponse({
     status: 200,
@@ -33,6 +35,7 @@ export class MemoryController {
   }
 
   @Get(':space')
+  @UseInterceptors(PublicCorsInterceptor)
   @ApiOperation({ summary: '메모리 공간 조회' })
   @ApiResponse({
     status: 200,

@@ -1,7 +1,8 @@
-import { Body, Controller, Headers, Post } from '@nestjs/common';
+import { Body, Controller, Headers, Post, UseInterceptors } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { BaseHeaderDto } from '~/dtos/request.dto';
+import { PublicCorsInterceptor } from '~/interceptors/cors.interceptor';
 
 import {
   CreateExternalMemoryReqBodyDto,
@@ -15,6 +16,7 @@ export class MemoryExternalController {
   constructor(private readonly memoryExternalService: MemoryExternalService) {}
 
   @Post('external')
+  @UseInterceptors(PublicCorsInterceptor)
   @ApiOperation({ summary: 'External 메모리 업로드' })
   @ApiResponse({
     status: 200,

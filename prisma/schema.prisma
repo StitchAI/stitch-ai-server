@@ -15,6 +15,9 @@ model User {
   memorySpaces     MemorySpace[]
   externalMemories ExternalMemory[]
 
+  marketListings MarketListing[]
+  purchases      Purchase[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -45,6 +48,8 @@ model Memory {
   spaceId String
   space   MemorySpace @relation(fields: [spaceId], references: [id])
 
+  marketListing MarketListing[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -63,6 +68,51 @@ model ExternalMemory {
   ownerId String?
   owner   User?   @relation(fields: [ownerId], references: [walletAddress])
 
+  marketListing MarketListing[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model MarketListing {
+  id String @id @default(uuid())
+
+  price  Float
+  active Boolean @default(true)
+
+  memoryType MemoryType
+
+  memoryId String?
+  memory   Memory? @relation(fields: [memoryId], references: [id])
+
+  externalMemoryId String?
+  externalMemory   ExternalMemory? @relation(fields: [externalMemoryId], references: [id])
+
+  sellerId String
+  seller   User   @relation(fields: [sellerId], references: [walletAddress])
+
+  purchases Purchase[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Purchase {
+  id String @id @default(uuid())
+
+  listingId String
+  listing   MarketListing @relation(fields: [listingId], references: [id])
+
+  buyerId String
+  buyer   User   @relation(fields: [buyerId], references: [walletAddress])
+
+  price Float
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum MemoryType {
+  MEMORY
+  EXTERNAL_MEMORY
 }
