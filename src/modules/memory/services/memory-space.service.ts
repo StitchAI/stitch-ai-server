@@ -38,7 +38,7 @@ export class MemorySpaceService {
     return { id: created.id, name: created.name };
   }
 
-  async getMemorySpace(header: BaseHeaderDto): Promise<GetMemorySpaceResDto> {
+  async getMemorySpaces(header: BaseHeaderDto): Promise<GetMemorySpaceResDto> {
     const { apikey } = header;
 
     const user = await this.prisma.user.findUniqueOrThrow({

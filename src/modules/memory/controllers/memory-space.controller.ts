@@ -41,15 +41,15 @@ export class MemorySpaceController {
     return this.memorySpaceService.createMemorySpace(headers, body);
   }
 
-  @Get('space')
+  @Get('spaces')
   @ApiOperation({ summary: '메모리 공간 목록 조회' })
   @ApiResponse({
     status: 200,
     description: '메모리 공간 목록 반환',
     type: GetMemorySpaceResDto,
   })
-  async getMemorySpace(@Headers() headers: BaseHeaderDto): Promise<GetMemorySpaceResDto> {
-    return this.memorySpaceService.getMemorySpace(headers);
+  async getMemorySpaces(@Headers() headers: BaseHeaderDto): Promise<GetMemorySpaceResDto> {
+    return this.memorySpaceService.getMemorySpaces(headers);
   }
 
   @Delete('space/:name')

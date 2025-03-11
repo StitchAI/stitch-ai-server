@@ -2,11 +2,13 @@ import { Body, Controller, Get, Headers, Param, Post, UseInterceptors } from '@n
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { BaseHeaderDto } from '~/dtos/request.dto';
+import { MemoryDto } from '~/entities/memory';
 import { PublicCorsInterceptor } from '~/interceptors/cors.interceptor';
 
 import {
   GetMemoriesInSpaceReqParamDto,
   GetMemoriesInSpaceResDto,
+  GetMemoryReqParamDto,
   UploadMemoryReqBodyDto,
   UploadMemoryReqParamDto,
   UploadMemoryResDto,
@@ -46,5 +48,19 @@ export class MemoryController {
     @Param() param: GetMemoriesInSpaceReqParamDto
   ): Promise<GetMemoriesInSpaceResDto> {
     return this.memoryService.getMemoriesInSpace(headers, param);
+  }
+
+  @Get(':space/:id')
+  @ApiOperation({ summary: '메모리 조회' })
+  @ApiResponse({
+    status: 200,
+    description: '메모리 반환',
+    type: GetMemoriesInSpaceResDto,
+  })
+  async getMemory(
+    @Headers() headers: BaseHeaderDto,
+    @Param() param: GetMemoryReqParamDto
+  ): Promise<MemoryDto> {
+    return this.memoryService.getMemory(headers, param);
   }
 }

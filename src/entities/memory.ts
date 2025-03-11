@@ -20,6 +20,7 @@ export class MemorySpaceDto implements MemorySpace {
   @ApiProperty({ description: '메모리 공간 이름', example: 'memory-space-1' })
   @IsString()
   name: string;
+
   @ApiProperty({ description: '메모리 공간 생성 시간', example: '2021-01-01T00:00:00.000Z' })
   @IsDateString()
   createdAt: Date;

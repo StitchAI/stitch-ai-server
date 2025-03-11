@@ -67,3 +67,16 @@ export class GetMemoriesInSpaceResDto {
   @ApiProperty({ description: '메모리 히스토리', type: [MemoryDto], required: false })
   histories: MemoryDto[];
 }
+
+export class GetMemoryReqParamDto {
+  @IsString()
+  @ApiProperty({ description: '메모리 공간 이름', example: 'memory-space-1' })
+  space: string;
+
+  @IsString()
+  @ApiProperty({
+    description: '메모리 id',
+    example: 'f3ff4f073ed24d62051c8d7bb73418b95db2f6ff9e4441af466f6d98',
+  })
+  id: string;
+}

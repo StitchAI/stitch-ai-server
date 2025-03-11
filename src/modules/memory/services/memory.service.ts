@@ -2,12 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { SHA3 } from 'crypto-js';
 
 import { BaseHeaderDto } from '~/dtos/request.dto';
-import { MemoryData } from '~/entities/memory';
+import { MemoryData, MemoryDto } from '~/entities/memory';
 import { PrismaService } from '~/prisma/services/prisma.service';
 
 import {
   GetMemoriesInSpaceReqParamDto,
   GetMemoriesInSpaceResDto,
+  GetMemoryReqParamDto,
   UploadMemoryReqBodyDto,
   UploadMemoryReqParamDto,
   UploadMemoryResDto,
@@ -120,6 +121,35 @@ export class MemoryService {
       name: memorySpace.name,
       memory: currentMemory,
       histories,
+    };
+  }
+
+  async getMemory(header: BaseHeaderDto, param: GetMemoryReqParamDto): Promise<MemoryDto> {
+    const { apikey } = header;
+    const { id } = param;
+
+    const user = await this.prisma.user.findUniqueOrThrow({
+      where: { apiKey: apikey },
+    });
+
+    const memory = await this.prisma.memory.findUniqueOrThrow({
+      where: { id, ownerId: user.walletAddress },
+      select: {
+        id: true,
+        spaceId: true,
+        ownerId: true,
+
+        message: true,
+        data: true,
+
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+
+    return {
+      ...memory,
+      data: (memory.data || { character: '', episodic: '' }) as MemoryData,
     };
   }
 }
