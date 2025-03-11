@@ -51,6 +51,7 @@ export class MemoryService {
           character: characterMemory,
         },
         spaceId: memorySpace.id,
+        ownerId: user.walletAddress,
       },
     });
 
@@ -86,8 +87,11 @@ export class MemoryService {
           select: {
             id: true,
             spaceId: true,
+            ownerId: true,
+
             message: true,
             data: true,
+
             createdAt: true,
             updatedAt: true,
           },

@@ -20,7 +20,6 @@ export class MemorySpaceDto implements MemorySpace {
   @ApiProperty({ description: '메모리 공간 이름', example: 'memory-space-1' })
   @IsString()
   name: string;
-
   @ApiProperty({ description: '메모리 공간 생성 시간', example: '2021-01-01T00:00:00.000Z' })
   @IsDateString()
   createdAt: Date;
@@ -46,7 +45,9 @@ export class MemoryDataDto implements MemoryData {
 
 export type Memory = {
   id: string;
+
   spaceId: string;
+  ownerId: string;
 
   message: string;
   data: MemoryData;
@@ -69,6 +70,13 @@ export class MemoryDto implements Memory {
   })
   @IsString()
   spaceId: string;
+
+  @ApiProperty({
+    description: '메모리 소유자 지갑 주소',
+    example: '0x1234567890123456789012345678901234567890',
+  })
+  @IsString()
+  ownerId: string;
 
   @ApiProperty({ description: '메모리 commit 메시지', example: 'this is a test memory' })
   @IsString()

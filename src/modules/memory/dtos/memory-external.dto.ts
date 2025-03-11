@@ -19,7 +19,7 @@ export class CreateExternalMemoryReqBodyDto {
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ description: '메모리 메시지', example: 'this is a test memory' })
+  @ApiProperty({ description: '메모리 메시지', example: 'this is a test memory', required: false })
   message: string;
 
   @IsObject()

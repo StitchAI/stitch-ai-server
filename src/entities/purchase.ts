@@ -10,8 +10,12 @@ export type Purchase = {
   listingId: string;
   listing: MarketListing;
 
+  internalListingId: string;
+
   buyerId: string;
   buyer: User;
+
+  txHash: string;
 
   price: number;
 
@@ -32,6 +36,10 @@ export class PurchaseDto implements Purchase {
   @IsObject()
   listing: MarketListingDto;
 
+  @ApiProperty({ description: '마켓 contract에서 생성된 목록 id', example: '1' })
+  @IsString()
+  internalListingId: string;
+
   @ApiProperty({
     description: '구매자 지갑 주소',
     example: '0x1234567890123456789012345678901234567890',
@@ -42,6 +50,13 @@ export class PurchaseDto implements Purchase {
   @ApiProperty({ description: '구매자', type: UserDto })
   @IsObject()
   buyer: UserDto;
+
+  @ApiProperty({
+    description: '구매 트랜잭션 해시',
+    example: '0x1234567890123456789012345678901234567890',
+  })
+  @IsString()
+  txHash: string;
 
   @ApiProperty({ description: '구매 가격', example: 100 })
   @IsNumber()

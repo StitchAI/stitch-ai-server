@@ -59,11 +59,11 @@ export class GetMemoriesInSpaceResDto {
 
   @IsObject()
   @IsOptional()
-  @ApiProperty({ description: '메모리', type: MemoryDto })
+  @ApiProperty({ description: '메모리', type: MemoryDto, required: false })
   memory: MemoryDto;
 
   @IsArray()
   @IsOptional()
-  @ApiProperty({ description: '메모리 히스토리', type: [MemoryDto] })
+  @ApiProperty({ description: '메모리 히스토리', type: [MemoryDto], required: false })
   histories: MemoryDto[];
 }
