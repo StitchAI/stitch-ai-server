@@ -4,6 +4,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 
 import { MarketplaceModule } from './modules/marketplace/marketplace.module';
 import { MemoryModule } from './modules/memory/memory.module';
+import { PurchaseModule } from './modules/purchase/purchase.module';
 import { UserModule } from './modules/user/user.module';
 import { Web3ClientModule } from './modules/web3-client/web3-client.module';
 
@@ -14,9 +15,10 @@ import { Web3ClientModule } from './modules/web3-client/web3-client.module';
 
     UserModule,
     MemoryModule,
+    PurchaseModule,
+    MarketplaceModule,
 
     Web3ClientModule,
-    MarketplaceModule,
   ],
   controllers: [],
   providers: [],

@@ -2,7 +2,6 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsDateString, IsNumber, IsObject, IsString } from 'class-validator';
 
 import { MarketListing, MarketListingDto } from './marketplace';
-import { User, UserDto } from './user';
 
 export type Purchase = {
   id: string;
@@ -13,7 +12,6 @@ export type Purchase = {
   internalListingId: string;
 
   buyerId: string;
-  buyer: User;
 
   txHash: string;
 
@@ -46,10 +44,6 @@ export class PurchaseDto implements Purchase {
   })
   @IsString()
   buyerId: string;
-
-  @ApiProperty({ description: '구매자', type: UserDto })
-  @IsObject()
-  buyer: UserDto;
 
   @ApiProperty({
     description: '구매 트랜잭션 해시',
