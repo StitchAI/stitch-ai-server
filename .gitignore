@@ -438,4 +438,5 @@ ecosystem.config.js
 .vscode
 *.pem
 
-untitledbank-storage.json
+cloud-storage.json
+firestore.json

@@ -1,0 +1,47 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  walletAddress String @id
+
+  apiKey String @unique
+
+  memorySpaces MemorySpace[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model MemorySpace {
+  id String @id @default(uuid())
+
+  name     String
+  memories Memory[]
+
+  ownerId String
+  owner   User   @relation(fields: [ownerId], references: [walletAddress])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([ownerId, name])
+}
+
+model Memory {
+  id String @id @default(uuid())
+
+  message String
+  data    Json // { character: string, episodic: string }
+
+  spaceId String
+  space   MemorySpace @relation(fields: [spaceId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
