@@ -54,7 +54,7 @@ export class CreateMarketListingReqBodyDto {
   sellerId: string;
 }
 
-export class DelistMarketListingReqParamDto {
+export class DelistMarketListingReqBodyDto {
   @ApiProperty({
     description: '마켓 목록 id',
     example: 'f3ff4f073ed24d62051c8d7bb73418b95db2f6ff9e4441af466f6d98',

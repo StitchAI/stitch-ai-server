@@ -7,7 +7,7 @@ import { PrismaService } from '~/prisma/services/prisma.service';
 
 import {
   CreateMarketListingReqBodyDto,
-  DelistMarketListingReqParamDto,
+  DelistMarketListingReqBodyDto,
 } from '../dtos/marketplace.dto';
 
 @Injectable()
@@ -117,10 +117,10 @@ export class MarketplaceService {
 
   async delistMarketListing(
     header: BaseHeaderDto,
-    param: DelistMarketListingReqParamDto
+    body: DelistMarketListingReqBodyDto
   ): Promise<void> {
     const { apikey } = header;
-    const { id } = param;
+    const { id } = body;
 
     const user = await this.prisma.user.findUniqueOrThrow({
       where: { apiKey: apikey },
