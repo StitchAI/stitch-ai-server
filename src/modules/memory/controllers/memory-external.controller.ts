@@ -11,12 +11,12 @@ import {
 import { MemoryExternalService } from '../services/memory-external.service';
 
 @ApiTags('MEMORY')
+@UseInterceptors(PublicCorsInterceptor)
 @Controller('memory')
 export class MemoryExternalController {
   constructor(private readonly memoryExternalService: MemoryExternalService) {}
 
   @Post('external')
-  @UseInterceptors(PublicCorsInterceptor)
   @ApiOperation({ summary: 'External 메모리 업로드' })
   @ApiResponse({
     status: 200,

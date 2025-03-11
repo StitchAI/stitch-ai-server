@@ -22,12 +22,12 @@ import {
 import { MemorySpaceService } from '../services/memory-space.service';
 
 @ApiTags('MEMORY')
+@UseInterceptors(PublicCorsInterceptor)
 @Controller('memory')
 export class MemorySpaceController {
   constructor(private readonly memorySpaceService: MemorySpaceService) {}
 
   @Post('space')
-  @UseInterceptors(PublicCorsInterceptor)
   @ApiOperation({ summary: '메모리 공간 생성' })
   @ApiResponse({
     status: 200,
@@ -42,7 +42,6 @@ export class MemorySpaceController {
   }
 
   @Get('space')
-  @UseInterceptors(PublicCorsInterceptor)
   @ApiOperation({ summary: '메모리 공간 목록 조회' })
   @ApiResponse({
     status: 200,
@@ -54,7 +53,6 @@ export class MemorySpaceController {
   }
 
   @Delete('space/:name')
-  @UseInterceptors(PublicCorsInterceptor)
   @ApiOperation({ summary: '메모리 공간 삭제' })
   @ApiResponse({
     status: 200,
