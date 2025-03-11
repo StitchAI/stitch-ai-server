@@ -9,7 +9,7 @@ import {
   UploadMemoryReqBodyDto,
   UploadMemoryReqParamDto,
   UploadMemoryResDto,
-} from '../dto/memory.dto';
+} from '../dtos/memory.dto';
 import { MemoryService } from '../services/memory.service';
 
 @ApiTags('MEMORY')

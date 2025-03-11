@@ -6,7 +6,7 @@ import { BaseHeaderDto } from '~/dtos/request.dto';
 import {
   CreateExternalMemoryReqBodyDto,
   CreateExternalMemoryResDto,
-} from '../dto/memory-external.dto';
+} from '../dtos/memory-external.dto';
 import { MemoryExternalService } from '../services/memory-external.service';
 
 @ApiTags('MEMORY')

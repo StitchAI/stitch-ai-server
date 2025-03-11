@@ -9,7 +9,7 @@ import {
   CreateMemorySpaceResDto,
   DeleteMemorySpaceReqParamDto,
   GetMemorySpaceResDto,
-} from '../dto/memory-space.dto';
+} from '../dtos/memory-space.dto';
 
 @Injectable()
 export class MemorySpaceService {

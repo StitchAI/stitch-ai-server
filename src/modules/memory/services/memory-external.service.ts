@@ -7,7 +7,7 @@ import { PrismaService } from '~/prisma/services/prisma.service';
 import {
   CreateExternalMemoryReqBodyDto,
   CreateExternalMemoryResDto,
-} from '../dto/memory-external.dto';
+} from '../dtos/memory-external.dto';
 
 @Injectable()
 export class MemoryExternalService {

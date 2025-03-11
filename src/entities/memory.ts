@@ -95,3 +95,64 @@ export class MemorySpaceWithMemoriesDto extends MemorySpaceDto {
   @IsArray()
   memories: MemoryDto[];
 }
+
+export type ExternalMemory = {
+  id: string;
+
+  operator: string;
+  operatorLogo: string;
+
+  name: string;
+  message: string;
+
+  data: string;
+
+  ownerId: string;
+
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+export class ExternalMemoryDto implements ExternalMemory {
+  @ApiProperty({
+    description: '외부 메모리 id',
+    example: 'f3ff4f073ed24d62051c8d7bb73418b95db2f6ff9e4441af466f6d98',
+  })
+  @IsString()
+  id: string;
+
+  @ApiProperty({ description: '외부 메모리 운영자', example: 'Nansen' })
+  @IsString()
+  operator: string;
+
+  @ApiProperty({ description: '외부 메모리 운영자 로고', example: 'https://example.com/logo.png' })
+  @IsString()
+  operatorLogo: string;
+
+  @ApiProperty({ description: '외부 메모리 이름', example: 'This is a test memory' })
+  @IsString()
+  name: string;
+
+  @ApiProperty({ description: '외부 메모리 메시지', example: 'this is a test memory' })
+  @IsString()
+  message: string;
+
+  @ApiProperty({ description: '외부 메모리 데이터', example: 'this is a test memory' })
+  @IsString()
+  data: string;
+
+  @ApiProperty({
+    description: '외부 메모리 소유자 지갑 주소',
+    example: '0x1234567890123456789012345678901234567890',
+  })
+  @IsString()
+  ownerId: string;
+
+  @ApiProperty({ description: '외부 메모리 생성 시간', example: '2021-01-01T00:00:00.000Z' })
+  @IsDateString()
+  createdAt: Date;
+
+  @ApiProperty({ description: '외부 메모리 수정 시간', example: '2021-01-01T00:00:00.000Z' })
+  @IsDateString()
+  updatedAt: Date;
+}

@@ -4,6 +4,8 @@ export const IS_DEVNET = process.env.BLOCKCHAIN_ENV === 'devnet';
 export const IS_MAINNET = process.env.BLOCKCHAIN_ENV === 'mainnet';
 
 export const IS_LOCAL = process.env.IS_LOCAL === 'true';
+export const IS_DEMO = process.env.IS_DEMO === 'true';
+
 export const DISABLE_CRON = process.env.DISABLE_CRON === 'true';
 
 export const SLACK_WEBHOOK_DEVNET = process.env.SLACK_WEBHOOK_DEVNET;

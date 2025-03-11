@@ -11,7 +11,7 @@ import {
   UploadMemoryReqBodyDto,
   UploadMemoryReqParamDto,
   UploadMemoryResDto,
-} from '../dto/memory.dto';
+} from '../dtos/memory.dto';
 
 @Injectable()
 export class MemoryService {

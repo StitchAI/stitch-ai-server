@@ -8,7 +8,7 @@ import {
   CreateMemorySpaceResDto,
   DeleteMemorySpaceReqParamDto,
   GetMemorySpaceResDto,
-} from '../dto/memory-space.dto';
+} from '../dtos/memory-space.dto';
 import { MemorySpaceService } from '../services/memory-space.service';
 
 @ApiTags('MEMORY')
