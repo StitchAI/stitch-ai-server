@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { SHA3 } from 'crypto-js';
 
 import { BaseHeaderDto } from '~/dtos/request.dto';
 import { MemoryData } from '~/entities/memory';
@@ -25,6 +26,10 @@ export class MemoryService {
     const { space } = param;
     const { message, episodicMemory, characterMemory } = body;
 
+    const hash = SHA3(`${apiKey}_${space}_${message}_${Date.now()}`, {
+      outputLength: 256,
+    }).toString();
+
     const user = await this.prisma.user.findUniqueOrThrow({
       where: { apiKey },
     });
@@ -39,6 +44,7 @@ export class MemoryService {
 
     const created = await this.prisma.memory.create({
       data: {
+        id: hash,
         message,
         data: {
           episodic: episodicMemory,

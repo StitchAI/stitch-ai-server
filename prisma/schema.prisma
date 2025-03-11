@@ -12,7 +12,8 @@ model User {
 
   apiKey String @unique
 
-  memorySpaces MemorySpace[]
+  memorySpaces     MemorySpace[]
+  externalMemories ExternalMemory[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -41,6 +42,24 @@ model Memory {
 
   spaceId String
   space   MemorySpace @relation(fields: [spaceId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ExternalMemory {
+  id String @id @default(uuid())
+
+  operator     String
+  operatorLogo String
+
+  name    String
+  message String?
+
+  data Json
+
+  ownerId String?
+  owner   User?   @relation(fields: [ownerId], references: [walletAddress])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

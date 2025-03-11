@@ -20,7 +20,7 @@ export class MemorySpaceController {
   @ApiOperation({ summary: '메모리 공간 생성' })
   @ApiResponse({
     status: 200,
-    description: 'id, name 반환',
+    description: '메모리 공간 생성 성공',
     type: CreateMemorySpaceResDto,
   })
   async createMemorySpace(
@@ -45,7 +45,7 @@ export class MemorySpaceController {
   @ApiOperation({ summary: '메모리 공간 삭제' })
   @ApiResponse({
     status: 200,
-    description: 'void 반환',
+    description: '메모리 공간 삭제 성공',
   })
   async deleteMemorySpace(
     @Headers() headers: BaseHeaderDto,
