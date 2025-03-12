@@ -38,3 +38,12 @@ export class CreateExternalMemoryResDto {
   })
   id: string;
 }
+
+export class GetExternalMemoryReqParamDto {
+  @IsString()
+  @ApiProperty({
+    description: '외부 메모리 id',
+    example: 'f3ff4f073ed24d62051c8d7bb73418b95db2f6ff9e4441af466f6d98',
+  })
+  id: string;
+}
