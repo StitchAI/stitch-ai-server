@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 
-import { BaseHeaderDto } from '~/dtos/request.dto';
 import { generateApiKey } from '~/libs/api-key';
 import { PrismaService } from '~/prisma/services/prisma.service';
 
@@ -11,14 +10,10 @@ import { GetUserReqQueryDto } from '../dtos/user.dto';
 export class UserService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async getUser(header: BaseHeaderDto, query: GetUserReqQueryDto): Promise<GetUserResDto> {
-    const { apikey } = header;
+  async getUser(query: GetUserReqQueryDto): Promise<GetUserResDto> {
     const user = await this.prisma.user.findUnique({
       where: {
-        walletAddress_apiKey: {
-          walletAddress: query.walletAddress,
-          apiKey: apikey,
-        },
+        walletAddress: query.walletAddress,
       },
     });
 
