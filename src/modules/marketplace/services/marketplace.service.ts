@@ -88,8 +88,8 @@ export class MarketplaceService {
       where: { apiKey: apikey },
     });
 
-    if (isAddressEqual(user.walletAddress as Address, sellerId as Address))
-      throw new BadRequestException('Seller cannot be the same as the user');
+    if (!isAddressEqual(user.walletAddress as Address, sellerId as Address))
+      throw new BadRequestException('Seller must be same as the user');
 
     if (!memoryId && !externalMemoryId)
       throw new BadRequestException('Either memoryId or externalMemoryId must be provided');
