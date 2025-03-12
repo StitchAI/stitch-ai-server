@@ -21,8 +21,8 @@ export class PurchaseController {
     description: '구매 목록 조회 성공, 구매 목록 배열 반환',
     type: [PurchaseDto],
   })
-  async getUserExternalMemoriesPurchaseList(@Headers() headers: BaseHeaderDto) {
-    return this.purchaseService.getUserExternalMemoriesPurchaseList(headers);
+  async getUserPurchaseList(@Headers() headers: BaseHeaderDto) {
+    return this.purchaseService.getUserPurchaseList(headers);
   }
 
   @Post()

@@ -1,4 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
+import { SHA3 } from 'crypto-js';
 import { Address } from 'viem';
 import { isAddressEqual } from 'viem';
 
@@ -12,7 +13,7 @@ import { CreatePurchaseReqBodyDto } from '../dtos/purchase.dto';
 export class PurchaseService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async getUserExternalMemoriesPurchaseList(headers: BaseHeaderDto): Promise<Purchase[]> {
+  async getUserPurchaseList(headers: BaseHeaderDto): Promise<Purchase[]> {
     const { apikey } = headers;
     const user = await this.prisma.user.findUniqueOrThrow({
       where: {
@@ -116,7 +117,7 @@ export class PurchaseService {
     if (!isAddressEqual(user.walletAddress as Address, buyerId as Address))
       throw new BadRequestException('Buyer must be the same as the user');
 
-    await this.prisma.purchase.create({
+    const created = await this.prisma.purchase.create({
       data: {
         buyerId,
         listingId,
@@ -124,6 +125,50 @@ export class PurchaseService {
         txHash,
         price,
       },
+      include: {
+        listing: {
+          include: {
+            memory: {
+              include: {
+                space: true,
+              },
+            },
+            externalMemory: true,
+          },
+        },
+      },
     });
+
+    // agent memory
+    const hash = SHA3(`${apikey}_${created.listing.memory.space.name}_${Date.now()}`, {
+      outputLength: 256,
+    }).toString();
+    const memoryHash = SHA3(
+      `${apikey}_${created.listing.memory.space.name}_${
+        created.listing.memory.message
+      }_${Date.now()}`,
+      {
+        outputLength: 256,
+      }
+    ).toString();
+
+    // agent memory
+    if (created.listing.memoryType === '0' && created.listing.memory) {
+      await this.prisma.memorySpace.create({
+        data: {
+          id: hash,
+          name: created.listing.memory.space.name,
+          ownerId: user.walletAddress,
+          memories: {
+            create: {
+              id: memoryHash,
+              message: created.listing.memory.message,
+              data: created.listing.memory.data,
+              ownerId: user.walletAddress,
+            },
+          },
+        },
+      });
+    }
   }
 }
