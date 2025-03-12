@@ -113,8 +113,8 @@ export class PurchaseService {
       where: { apiKey: apikey },
     });
 
-    if (isAddressEqual(user.walletAddress as Address, buyerId as Address))
-      throw new BadRequestException('Buyer cannot be the same as the user');
+    if (!isAddressEqual(user.walletAddress as Address, buyerId as Address))
+      throw new BadRequestException('Buyer must be the same as the user');
 
     await this.prisma.purchase.create({
       data: {
