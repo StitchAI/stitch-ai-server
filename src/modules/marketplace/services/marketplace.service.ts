@@ -32,6 +32,7 @@ export class MarketplaceService {
         memory: {
           select: {
             id: true,
+            space: true,
             spaceId: true,
             ownerId: true,
 

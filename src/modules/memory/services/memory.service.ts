@@ -87,6 +87,7 @@ export class MemoryService {
           },
           select: {
             id: true,
+            space: true,
             spaceId: true,
             ownerId: true,
 
@@ -137,6 +138,7 @@ export class MemoryService {
       select: {
         id: true,
         spaceId: true,
+        space: true,
         ownerId: true,
 
         message: true,

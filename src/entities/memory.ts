@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsArray, IsDateString, IsString } from 'class-validator';
+import { IsArray, IsDateString, IsObject, IsString } from 'class-validator';
 
 export type MemorySpace = {
   id: string;
@@ -48,6 +48,8 @@ export type Memory = {
   id: string;
 
   spaceId: string;
+  space: MemorySpace;
+
   ownerId: string;
 
   message: string;
@@ -71,6 +73,10 @@ export class MemoryDto implements Memory {
   })
   @IsString()
   spaceId: string;
+
+  @ApiProperty({ description: '메모리 공간', type: MemorySpaceDto })
+  @IsObject()
+  space: MemorySpaceDto;
 
   @ApiProperty({
     description: '메모리 소유자 지갑 주소',

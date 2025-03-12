@@ -47,6 +47,7 @@ export class PurchaseService {
                 id: true,
 
                 spaceId: true,
+                space: true,
                 ownerId: true,
 
                 message: true,
