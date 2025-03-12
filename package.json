@@ -6,10 +6,10 @@
   "license": "UNLICENSED",
   "scripts": {
     "local": "dotenv -e .env -- nest start --watch",
-    "build": "nest build",
+    "build": "dotenv -e .env -- nest build",
     "build:docker": "docker build . -t asia-northeast1-docker.pkg.dev/stitch-ai-451906/stitch-ai/stitch-ai-server:$(git rev-parse --short HEAD) -f ./deploy-devnet.dockerfile --platform linux/amd64",
     "push:docker": "docker push asia-northeast1-docker.pkg.dev/stitch-ai-451906/stitch-ai/stitch-ai-server:$(git rev-parse --short HEAD)",
-    "prisma:push": "prisma db push --schema=prisma/schema.prisma",
+    "prisma:push": "dotenv -e .env -- prisma db push --schema=prisma/schema.prisma",
     "check:prettier": "prettier --write \"src/**/*.ts\"",
     "check:lint": "eslint --fix --ext .ts src/",
     "check:type": "tsc --p ./tsconfig.json --noEmit"
