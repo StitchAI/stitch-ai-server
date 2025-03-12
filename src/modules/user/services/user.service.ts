@@ -13,15 +13,15 @@ export class UserService {
   async getUser(query: GetUserReqQueryDto): Promise<GetUserResDto> {
     const user = await this.prisma.user.findUnique({
       where: {
-        walletAddress: query.walletAddress,
+        walletAddress: query.walletAddress.toLowerCase(),
       },
     });
 
     if (!user) {
       const newUser = await this.prisma.user.create({
         data: {
-          walletAddress: query.walletAddress,
-          apiKey: generateApiKey(query.walletAddress),
+          walletAddress: query.walletAddress.toLowerCase(),
+          apiKey: generateApiKey(query.walletAddress.toLowerCase()),
         },
       });
 
