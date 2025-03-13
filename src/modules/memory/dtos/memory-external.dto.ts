@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsObject, IsOptional, IsString } from 'class-validator';
+import { IsOptional, IsString } from 'class-validator';
 
 export class CreateExternalMemoryReqBodyDto {
   @IsString()
@@ -22,7 +22,7 @@ export class CreateExternalMemoryReqBodyDto {
   @ApiProperty({ description: '메모리 메시지', example: 'this is a test memory', required: false })
   message: string;
 
-  @IsObject()
+  @IsString()
   @ApiProperty({
     description: '메모리 데이터',
     example: 'this is a test memory',
