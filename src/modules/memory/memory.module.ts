@@ -11,7 +11,7 @@ import { MemorySpaceService } from './services/memory-space.service';
 
 @Module({
   imports: [PrismaModule],
-  controllers: [MemorySpaceController, MemoryController, MemoryExternalController],
+  controllers: [MemorySpaceController, MemoryExternalController, MemoryController],
   providers: [MemoryService, MemorySpaceService, MemoryExternalService],
   exports: [MemoryService, MemorySpaceService, MemoryExternalService],
 })
