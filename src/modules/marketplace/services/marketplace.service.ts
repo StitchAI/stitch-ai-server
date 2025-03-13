@@ -111,7 +111,7 @@ export class MarketplaceService {
         memoryId,
         externalMemoryId,
 
-        sellerId: user.walletAddress,
+        sellerId: user.walletAddress.toLowerCase(),
       },
     });
   }
@@ -128,12 +128,12 @@ export class MarketplaceService {
     });
 
     const marketListing = await this.prisma.marketListing.findUniqueOrThrow({
-      where: { id, sellerId: user.walletAddress },
+      where: { id, sellerId: user.walletAddress.toLowerCase() },
     });
     if (!marketListing) throw new NotFoundException('Market not found');
 
     await this.prisma.marketListing.update({
-      where: { id, sellerId: user.walletAddress },
+      where: { id, sellerId: user.walletAddress.toLowerCase() },
       data: { active: false },
     });
   }

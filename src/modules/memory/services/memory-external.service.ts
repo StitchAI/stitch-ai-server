@@ -39,7 +39,7 @@ export class MemoryExternalService {
         name,
         message,
         data,
-        ownerId: user.walletAddress,
+        ownerId: user.walletAddress.toLowerCase(),
       },
     });
 

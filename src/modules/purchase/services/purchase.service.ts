@@ -119,7 +119,7 @@ export class PurchaseService {
 
     const created = await this.prisma.purchase.create({
       data: {
-        buyerId,
+        buyerId: buyerId.toLowerCase(),
         listingId,
         internalListingId,
         txHash,
@@ -158,13 +158,13 @@ export class PurchaseService {
         data: {
           id: hash,
           name: created.listing.memory.space.name,
-          ownerId: user.walletAddress,
+          ownerId: user.walletAddress.toLowerCase(),
           memories: {
             create: {
               id: memoryHash,
               message: created.listing.memory.message,
               data: created.listing.memory.data,
-              ownerId: user.walletAddress,
+              ownerId: user.walletAddress.toLowerCase(),
             },
           },
         },

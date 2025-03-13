@@ -31,7 +31,7 @@ export class MemorySpaceService {
       data: {
         id: hash,
         name,
-        ownerId: user.walletAddress,
+        ownerId: user.walletAddress.toLowerCase(),
       },
     });
 
@@ -46,7 +46,7 @@ export class MemorySpaceService {
     });
 
     const memorySpaces = await this.prisma.memorySpace.findMany({
-      where: { ownerId: user.walletAddress },
+      where: { ownerId: user.walletAddress.toLowerCase() },
     });
 
     const data = memorySpaces.map(memorySpace => ({

@@ -37,7 +37,7 @@ export class MemoryService {
     const memorySpace = await this.prisma.memorySpace.findUniqueOrThrow({
       where: {
         ownerId_name: {
-          ownerId: user.walletAddress,
+          ownerId: user.walletAddress.toLowerCase(),
           name: space,
         },
       },
@@ -52,7 +52,7 @@ export class MemoryService {
           character: characterMemory,
         },
         spaceId: memorySpace.id,
-        ownerId: user.walletAddress,
+        ownerId: user.walletAddress.toLowerCase(),
       },
     });
 
@@ -134,7 +134,7 @@ export class MemoryService {
     });
 
     const memory = await this.prisma.memory.findUniqueOrThrow({
-      where: { id, ownerId: user.walletAddress },
+      where: { id, ownerId: user.walletAddress.toLowerCase() },
       select: {
         id: true,
         spaceId: true,
