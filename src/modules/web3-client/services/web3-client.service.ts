@@ -1,10 +1,10 @@
 import { Global, Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { createPublicClient, http, PublicClient } from 'viem';
-import { monadTestnet } from 'viem/chains';
+import { bscTestnet } from 'viem/chains';
 
 @Global()
 @Injectable()
-export class Web3ClientMonadService implements OnModuleInit, OnModuleDestroy {
+export class Web3ClientBscService implements OnModuleInit, OnModuleDestroy {
   constructor() {}
 
   private client: PublicClient;
@@ -14,7 +14,7 @@ export class Web3ClientMonadService implements OnModuleInit, OnModuleDestroy {
       batch: {
         multicall: true,
       },
-      chain: monadTestnet,
+      chain: bscTestnet,
       transport: http(),
     });
 

@@ -1,12 +1,12 @@
 import { Global, Module } from '@nestjs/common';
 
-import { Web3ClientMonadService } from './services/web3-client.service';
+import { Web3ClientBscService } from './services/web3-client.service';
 
 @Global()
 @Module({
   imports: [],
   controllers: [],
-  providers: [Web3ClientMonadService],
-  exports: [Web3ClientMonadService],
+  providers: [Web3ClientBscService],
+  exports: [Web3ClientBscService],
 })
 export class Web3ClientModule {}
