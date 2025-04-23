@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Headers, Param, Post, UseInterceptors } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Headers,
+  Param,
+  Post,
+  Query,
+  UseInterceptors,
+} from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { BaseDto } from '~/dtos/request.dto';
@@ -30,12 +39,13 @@ export class MemoryController {
   })
   async uploadMemory(
     @Headers() headers: BaseDto,
+    @Query() query: BaseDto,
     @Param() param: UploadMemoryReqParamDto,
     @Body() body: UploadMemoryReqBodyDto
   ): Promise<UploadMemoryResDto> {
     const { apikey: apikeyFromHeader } = headers;
-    const { apikey: apikeyFromParam } = param;
-    const apikey = apikeyFromHeader || apikeyFromParam;
+    const { apikey: apikeyFromQuery } = query;
+    const apikey = apikeyFromHeader || apikeyFromQuery;
 
     return this.memoryService.uploadMemory(apikey, param, body);
   }
@@ -49,11 +59,12 @@ export class MemoryController {
   })
   async getMemoriesInSpace(
     @Headers() headers: BaseDto,
+    @Query() query: BaseDto,
     @Param() param: GetMemoriesInSpaceReqParamDto
   ): Promise<GetMemoriesInSpaceResDto> {
     const { apikey: apikeyFromHeader } = headers;
-    const { apikey: apikeyFromParam } = param;
-    const apikey = apikeyFromHeader || apikeyFromParam;
+    const { apikey: apikeyFromQuery } = query;
+    const apikey = apikeyFromHeader || apikeyFromQuery;
 
     return this.memoryService.getMemoriesInSpace(apikey, param);
   }
@@ -67,11 +78,12 @@ export class MemoryController {
   })
   async getMemory(
     @Headers() headers: BaseDto,
+    @Query() query: BaseDto,
     @Param() param: GetMemoryReqParamDto
   ): Promise<MemoryDto> {
     const { apikey: apikeyFromHeader } = headers;
-    const { apikey: apikeyFromParam } = param;
-    const apikey = apikeyFromHeader || apikeyFromParam;
+    const { apikey: apikeyFromQuery } = query;
+    const apikey = apikeyFromHeader || apikeyFromQuery;
 
     return this.memoryService.getMemory(apikey, param);
   }

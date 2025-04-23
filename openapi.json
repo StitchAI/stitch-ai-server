@@ -1,0 +1,1145 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Stitch AI API",
+    "description": "Stitch AI API",
+    "version": "1.0.0",
+    "contact": {},
+    "x-logo": {
+      "url": "https://storage.googleapis.com/stitch-ai-assets/logo-text.png",
+      "backgroundColor": "#fff",
+      "altText": "Stitch AI"
+    }
+  },
+  "tags": [],
+  "servers": [
+    {
+      "url": "https://7aca-58-230-165-34.ngrok-free.app",
+      "description": "Stitch AI Devnet Server"
+    }
+  ],
+  "parameters": [
+    {
+      "name": "apikey",
+      "in": "query",
+      "schema": {
+        "type": "string"
+      }
+    }
+  ],
+  "paths": {
+    "/user": {
+      "get": {
+        "description": "유저 조회. 유저가 없는 경우 생성",
+        "operationId": "UserController_getUser",
+        "parameters": [
+          {
+            "name": "walletAddress",
+            "required": true,
+            "in": "query",
+            "description": "유저 지갑 주소",
+            "schema": {
+              "example": "0x1234567890123456789012345678901234567890",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUserResDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "유저 조회",
+        "tags": ["USER"]
+      }
+    },
+    "/memory/space": {
+      "post": {
+        "operationId": "MemorySpaceController_createMemorySpace",
+        "parameters": [
+          {
+            "name": "apikey",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMemorySpaceReqBodyDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "메모리 공간 생성 성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateMemorySpaceResDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "메모리 공간 생성",
+        "tags": ["MEMORY"]
+      }
+    },
+    "/memory/spaces": {
+      "get": {
+        "operationId": "MemorySpaceController_getMemorySpaces",
+        "parameters": [
+          {
+            "name": "apikey",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "메모리 공간 목록 반환",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetMemorySpaceResDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "메모리 공간 목록 조회",
+        "tags": ["MEMORY"]
+      }
+    },
+    "/memory/space/{name}": {
+      "delete": {
+        "operationId": "MemorySpaceController_deleteMemorySpace",
+        "parameters": [
+          {
+            "name": "apikey",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "name",
+            "required": true,
+            "in": "path",
+            "description": "메모리 공간 이름",
+            "schema": {
+              "example": "memory-space-1",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "메모리 공간 삭제 성공"
+          }
+        },
+        "summary": "메모리 공간 삭제",
+        "tags": ["MEMORY"]
+      }
+    },
+    "/memory/external": {
+      "post": {
+        "operationId": "MemoryExternalController_createExternalMemory",
+        "parameters": [
+          {
+            "name": "apikey",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateExternalMemoryReqBodyDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "External 메모리 업로드 성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateExternalMemoryResDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "External 메모리 업로드",
+        "tags": ["MEMORY"]
+      }
+    },
+    "/memory/external/{id}": {
+      "get": {
+        "operationId": "MemoryExternalController_getExternalMemory",
+        "parameters": [
+          {
+            "name": "apikey",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "외부 메모리 id",
+            "schema": {
+              "example": "f3ff4f073ed24d62051c8d7bb73418b95db2f6ff9e4441af466f6d98",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "External 메모리 조회 성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExternalMemoryDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "External 메모리 조회",
+        "tags": ["MEMORY"]
+      }
+    },
+    "/memory/{space}": {
+      "post": {
+        "operationId": "MemoryController_uploadMemory",
+        "parameters": [
+          {
+            "name": "apikey",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "space",
+            "required": true,
+            "in": "path",
+            "description": "메모리 공간 이름",
+            "schema": {
+              "example": "memory-space-1",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UploadMemoryReqBodyDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "메모리 업로드 성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UploadMemoryResDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "메모리 업로드",
+        "tags": ["MEMORY"]
+      },
+      "get": {
+        "operationId": "MemoryController_getMemoriesInSpace",
+        "parameters": [
+          {
+            "name": "apikey",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "space",
+            "required": true,
+            "in": "path",
+            "description": "메모리 공간 이름",
+            "schema": {
+              "example": "memory-space-1",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "메모리 공간, 메모리, 메모리 히스토리 반환",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetMemoriesInSpaceResDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "메모리 공간 조회",
+        "tags": ["MEMORY"]
+      }
+    },
+    "/memory/{space}/{id}": {
+      "get": {
+        "operationId": "MemoryController_getMemory",
+        "parameters": [
+          {
+            "name": "apikey",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "space",
+            "required": true,
+            "in": "path",
+            "description": "메모리 공간 이름",
+            "schema": {
+              "example": "memory-space-1",
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "메모리 id",
+            "schema": {
+              "example": "f3ff4f073ed24d62051c8d7bb73418b95db2f6ff9e4441af466f6d98",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "메모리 반환",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetMemoriesInSpaceResDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "메모리 조회",
+        "tags": ["MEMORY"]
+      }
+    },
+    "/purchase": {
+      "get": {
+        "operationId": "PurchaseController_getUserPurchaseList",
+        "parameters": [
+          {
+            "name": "apikey",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "구매 목록 조회 성공, 구매 목록 배열 반환",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PurchaseDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "구매 목록 조회",
+        "tags": ["PURCHASE"]
+      },
+      "post": {
+        "operationId": "PurchaseController_createPurchase",
+        "parameters": [
+          {
+            "name": "apikey",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePurchaseReqBodyDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "구매 생성 성공, void 반환"
+          }
+        },
+        "summary": "구매 생성",
+        "tags": ["PURCHASE"]
+      }
+    },
+    "/marketplace/list": {
+      "get": {
+        "operationId": "MarketplaceController_getMarketListings",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "마켓 판매 목록 조회 성공, 마켓 판매 목록 배열 반환",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MarketListingDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "마켓 판매 목록 조회",
+        "tags": ["MARKETPLACE"]
+      },
+      "post": {
+        "operationId": "MarketplaceController_createMarketListing",
+        "parameters": [
+          {
+            "name": "apikey",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMarketListingReqBodyDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "마켓 판매 목록 생성 성공, void 반환"
+          }
+        },
+        "summary": "마켓 판매 목록 생성",
+        "tags": ["MARKETPLACE"]
+      }
+    },
+    "/marketplace/delist": {
+      "post": {
+        "operationId": "MarketplaceController_delistMarketListing",
+        "parameters": [
+          {
+            "name": "apikey",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DelistMarketListingReqBodyDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "마켓 판매 목록 비활성화 성공, void 반환"
+          }
+        },
+        "summary": "마켓 판매 목록 비활성화",
+        "tags": ["MARKETPLACE"]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "GetUserResDto": {
+        "type": "object",
+        "properties": {
+          "walletAddress": {
+            "type": "string",
+            "description": "유저 지갑 주소",
+            "example": "0x1234567890123456789012345678901234567890"
+          },
+          "apiKey": {
+            "type": "string",
+            "description": "유저 API 키",
+            "example": "12345678-90123456"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "유저 생성 시간",
+            "example": "2021-01-01T00:00:00.000Z"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "유저 수정 시간",
+            "example": "2021-01-01T00:00:00.000Z"
+          }
+        },
+        "required": ["walletAddress", "apiKey", "createdAt", "updatedAt"]
+      },
+      "CreateMemorySpaceReqBodyDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "메모리 공간 이름",
+            "example": "memory-space-1"
+          }
+        },
+        "required": ["name"]
+      },
+      "CreateMemorySpaceResDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "메모리 공간 id",
+            "example": "300d01f3a910045fefa16d6a149f38167b2503dbc37c1b24fd6f751e"
+          },
+          "name": {
+            "type": "string",
+            "description": "메모리 공간 이름",
+            "example": "memory-space-1"
+          }
+        },
+        "required": ["id", "name"]
+      },
+      "MemorySpaceDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "메모리 공간 id",
+            "example": "300d01f3a910045fefa16d6a149f38167b2503dbc37c1b24fd6f751e"
+          },
+          "name": {
+            "type": "string",
+            "description": "메모리 공간 이름",
+            "example": "memory-space-1"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "메모리 공간 생성 시간",
+            "example": "2021-01-01T00:00:00.000Z"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "메모리 공간 수정 시간",
+            "example": "2021-01-01T00:00:00.000Z"
+          }
+        },
+        "required": ["id", "name", "createdAt", "updatedAt"]
+      },
+      "GetMemorySpaceResDto": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "description": "메모리 공간 목록",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MemorySpaceDto"
+            }
+          }
+        },
+        "required": ["data"]
+      },
+      "CreateExternalMemoryReqBodyDto": {
+        "type": "object",
+        "properties": {
+          "operator": {
+            "type": "string",
+            "description": "오퍼레이터 이름",
+            "example": "operator-1"
+          },
+          "operatorLogo": {
+            "type": "string",
+            "description": "오퍼레이터 로고",
+            "example": "https://storage/logo.png"
+          },
+          "name": {
+            "type": "string",
+            "description": "메모리 이름",
+            "example": "memory-1"
+          },
+          "message": {
+            "type": "string",
+            "description": "메모리 메시지",
+            "example": "this is a test memory"
+          },
+          "data": {
+            "type": "string",
+            "description": "메모리 데이터",
+            "example": "this is a test memory"
+          }
+        },
+        "required": ["operator", "operatorLogo", "name", "data"]
+      },
+      "CreateExternalMemoryResDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "메모리 id",
+            "example": "f3ff4f073ed24d62051c8d7bb73418b95db2f6ff9e4441af466f6d98"
+          }
+        },
+        "required": ["id"]
+      },
+      "ExternalMemoryDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "외부 메모리 id",
+            "example": "f3ff4f073ed24d62051c8d7bb73418b95db2f6ff9e4441af466f6d98"
+          },
+          "operator": {
+            "type": "string",
+            "description": "외부 메모리 운영자",
+            "example": "Nansen"
+          },
+          "operatorLogo": {
+            "type": "string",
+            "description": "외부 메모리 운영자 로고",
+            "example": "https://example.com/logo.png"
+          },
+          "name": {
+            "type": "string",
+            "description": "외부 메모리 이름",
+            "example": "This is a test memory"
+          },
+          "message": {
+            "type": "string",
+            "description": "외부 메모리 메시지",
+            "example": "this is a test memory"
+          },
+          "data": {
+            "type": "string",
+            "description": "외부 메모리 데이터",
+            "example": "this is a test memory"
+          },
+          "ownerId": {
+            "type": "string",
+            "description": "외부 메모리 소유자 지갑 주소",
+            "example": "0x1234567890123456789012345678901234567890"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "외부 메모리 생성 시간",
+            "example": "2021-01-01T00:00:00.000Z"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "외부 메모리 수정 시간",
+            "example": "2021-01-01T00:00:00.000Z"
+          }
+        },
+        "required": [
+          "id",
+          "operator",
+          "operatorLogo",
+          "name",
+          "message",
+          "data",
+          "ownerId",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "UploadMemoryReqBodyDto": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "메모리 메시지",
+            "example": "this is a test memory"
+          },
+          "episodicMemory": {
+            "type": "string",
+            "description": "에피소드 메모리",
+            "example": "this is a test episodic memory"
+          },
+          "characterMemory": {
+            "type": "string",
+            "description": "캐릭터 메모리",
+            "example": "this is a test character memory"
+          }
+        },
+        "required": ["message", "episodicMemory", "characterMemory"]
+      },
+      "UploadMemoryResDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "메모리 id",
+            "example": "f3ff4f073ed24d62051c8d7bb73418b95db2f6ff9e4441af466f6d98"
+          },
+          "message": {
+            "type": "string",
+            "description": "메모리 메시지",
+            "example": "this is a test memory"
+          },
+          "space": {
+            "type": "string",
+            "description": "메모리 공간 이름",
+            "example": "memory-space-1"
+          }
+        },
+        "required": ["id", "message", "space"]
+      },
+      "MemoryDataDto": {
+        "type": "object",
+        "properties": {
+          "character": {
+            "type": "string",
+            "description": "캐릭터 메모리",
+            "example": "캐릭터 메모리"
+          },
+          "episodic": {
+            "type": "string",
+            "description": "에피소드 메모리",
+            "example": "에피소드 메모리"
+          }
+        },
+        "required": ["character", "episodic"]
+      },
+      "MemoryDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "메모리 id",
+            "example": "f3ff4f073ed24d62051c8d7bb73418b95db2f6ff9e4441af466f6d98"
+          },
+          "spaceId": {
+            "type": "string",
+            "description": "메모리 공간 id",
+            "example": "300d01f3a910045fefa16d6a149f38167b2503dbc37c1b24fd6f751e"
+          },
+          "space": {
+            "description": "메모리 공간",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MemorySpaceDto"
+              }
+            ]
+          },
+          "ownerId": {
+            "type": "string",
+            "description": "메모리 소유자 지갑 주소",
+            "example": "0x1234567890123456789012345678901234567890"
+          },
+          "message": {
+            "type": "string",
+            "description": "메모리 commit 메시지",
+            "example": "this is a test memory"
+          },
+          "data": {
+            "description": "메모리 데이터",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MemoryDataDto"
+              }
+            ]
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "메모리 생성 시간",
+            "example": "2021-01-01T00:00:00.000Z"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "메모리 수정 시간",
+            "example": "2021-01-01T00:00:00.000Z"
+          }
+        },
+        "required": [
+          "id",
+          "spaceId",
+          "space",
+          "ownerId",
+          "message",
+          "data",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "GetMemoriesInSpaceResDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "메모리 공간 이름",
+            "example": "memory-space-1"
+          },
+          "memory": {
+            "description": "메모리",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MemoryDto"
+              }
+            ]
+          },
+          "histories": {
+            "description": "메모리 히스토리",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MemoryDto"
+            }
+          }
+        },
+        "required": ["name"]
+      },
+      "UserDto": {
+        "type": "object",
+        "properties": {
+          "walletAddress": {
+            "type": "string",
+            "description": "유저 지갑 주소",
+            "example": "0x1234567890123456789012345678901234567890"
+          },
+          "apiKey": {
+            "type": "string",
+            "description": "유저 API 키",
+            "example": "12345678-90123456"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "유저 생성 시간",
+            "example": "2021-01-01T00:00:00.000Z"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "유저 수정 시간",
+            "example": "2021-01-01T00:00:00.000Z"
+          }
+        },
+        "required": ["walletAddress", "apiKey", "createdAt", "updatedAt"]
+      },
+      "MarketListingDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "마켓 목록 id",
+            "example": "123"
+          },
+          "price": {
+            "type": "number",
+            "description": "마켓 목록 가격",
+            "example": 100
+          },
+          "priceWei": {
+            "type": "string",
+            "description": "마켓 목록 가격 (wei, decimal 6)",
+            "example": "100000000"
+          },
+          "active": {
+            "type": "boolean",
+            "description": "마켓 목록 활성화 여부",
+            "example": true
+          },
+          "internalId": {
+            "type": "string",
+            "description": "마켓 contract에서 생성된 목록 id",
+            "example": "1"
+          },
+          "txHash": {
+            "type": "string",
+            "description": "마켓 목록 트랜잭션 해시",
+            "example": "0x1234567890123456789012345678901234567890"
+          },
+          "memoryType": {
+            "type": "string",
+            "description": "마켓 목록 메모리 타입",
+            "example": "0"
+          },
+          "memoryId": {
+            "type": "string",
+            "description": "memory id (optional). 마켓에 올린 메모리 타입에 따라 메모리 또는 external 메모리 id 중 하나가 존재",
+            "example": "f3ff4f073ed24d62051c8d7bb73418b95db2f6ff9e4441af466f6d98"
+          },
+          "memory": {
+            "description": "마켓 목록 메모리",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MemoryDto"
+              }
+            ]
+          },
+          "externalMemoryId": {
+            "type": "string",
+            "description": "external 메모리 id (optional). 마켓에 올린 메모리 타입에 따라 메모리 또는 external 메모리 id 중 하나가 존재",
+            "example": "f3ff4f073ed24d62051c8d7bb73418b95db2f6ff9e4441af466f6d98"
+          },
+          "externalMemory": {
+            "description": "마켓 목록 외부 메모리",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ExternalMemoryDto"
+              }
+            ]
+          },
+          "sellerId": {
+            "type": "string",
+            "description": "마켓 목록 판매자 지갑 주소",
+            "example": "0x1234567890123456789012345678901234567890"
+          },
+          "seller": {
+            "description": "판매자",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/UserDto"
+              }
+            ]
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "마켓 목록 생성 시간",
+            "example": "2021-01-01T00:00:00.000Z"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "마켓 목록 수정 시간",
+            "example": "2021-01-01T00:00:00.000Z"
+          }
+        },
+        "required": [
+          "id",
+          "price",
+          "priceWei",
+          "active",
+          "internalId",
+          "txHash",
+          "memoryType",
+          "sellerId",
+          "seller",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "PurchaseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "구매 id",
+            "example": "123"
+          },
+          "listingId": {
+            "type": "string",
+            "description": "마켓 목록 id",
+            "example": "123"
+          },
+          "listing": {
+            "description": "마켓 목록",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MarketListingDto"
+              }
+            ]
+          },
+          "internalListingId": {
+            "type": "string",
+            "description": "마켓 contract에서 생성된 목록 id",
+            "example": "1"
+          },
+          "buyerId": {
+            "type": "string",
+            "description": "구매자 지갑 주소",
+            "example": "0x1234567890123456789012345678901234567890"
+          },
+          "txHash": {
+            "type": "string",
+            "description": "구매 트랜잭션 해시",
+            "example": "0x1234567890123456789012345678901234567890"
+          },
+          "price": {
+            "type": "number",
+            "description": "구매 가격",
+            "example": 100
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "구매 시간",
+            "example": "2021-01-01T00:00:00.000Z"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "구매 시간",
+            "example": "2021-01-01T00:00:00.000Z"
+          }
+        },
+        "required": [
+          "id",
+          "listingId",
+          "listing",
+          "internalListingId",
+          "buyerId",
+          "txHash",
+          "price",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "CreatePurchaseReqBodyDto": {
+        "type": "object",
+        "properties": {
+          "buyerId": {
+            "type": "string",
+            "description": "구매자 지갑 주소"
+          },
+          "listingId": {
+            "type": "string",
+            "description": "마켓 목록 id"
+          },
+          "internalListingId": {
+            "type": "string",
+            "description": "마켓 contract에서 생성된 목록 id"
+          },
+          "txHash": {
+            "type": "string",
+            "description": "구매 트랜잭션 해시"
+          },
+          "price": {
+            "type": "number",
+            "description": "마켓 목록 가격"
+          }
+        },
+        "required": ["buyerId", "listingId", "internalListingId", "txHash", "price"]
+      },
+      "CreateMarketListingReqBodyDto": {
+        "type": "object",
+        "properties": {
+          "price": {
+            "type": "number",
+            "description": "마켓 목록 가격",
+            "example": 100
+          },
+          "active": {
+            "type": "boolean",
+            "description": "마켓 목록 활성화 여부",
+            "example": true
+          },
+          "memoryType": {
+            "type": "string",
+            "description": "마켓 목록 메모리 타입, 0: 에이전트 메모리, 1: 외부 메모리",
+            "example": "0"
+          },
+          "internalId": {
+            "type": "string",
+            "description": "마켓 목록 컨트랙트 id",
+            "example": "0"
+          },
+          "txHash": {
+            "type": "string",
+            "description": "마켓 목록 트랜잭션 해시",
+            "example": "0x1234567890123456789012345678901234567890"
+          },
+          "memoryId": {
+            "type": "string",
+            "description": "마켓 목록 메모리 id",
+            "example": "f3ff4f073ed24d62051c8d7bb73418b95db2f6ff9e4441af466f6d98"
+          },
+          "externalMemoryId": {
+            "type": "string",
+            "description": "마켓 목록 외부 메모리 id",
+            "example": "f3ff4f073ed24d62051c8d7bb73418b95db2f6ff9e4441af466f6d98"
+          },
+          "sellerId": {
+            "type": "string",
+            "description": "마켓 목록 판매자 id",
+            "example": "0x1234567890123456789012345678901234567890"
+          }
+        },
+        "required": ["price", "active", "memoryType", "internalId", "txHash", "sellerId"]
+      },
+      "DelistMarketListingReqBodyDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "마켓 목록 id",
+            "example": "f3ff4f073ed24d62051c8d7bb73418b95db2f6ff9e4441af466f6d98"
+          }
+        },
+        "required": ["id"]
+      }
+    }
+  }
+}

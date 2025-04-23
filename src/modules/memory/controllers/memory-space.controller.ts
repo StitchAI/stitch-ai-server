@@ -6,6 +6,7 @@ import {
   Headers,
   Param,
   Post,
+  Query,
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -36,12 +37,12 @@ export class MemorySpaceController {
   })
   async createMemorySpace(
     @Headers() headers: BaseDto,
-    @Param() param: BaseDto,
+    @Query() query: BaseDto,
     @Body() body: CreateMemorySpaceReqBodyDto
   ): Promise<CreateMemorySpaceResDto> {
     const { apikey: apikeyFromHeader } = headers;
-    const { apikey: apikeyFromParam } = param;
-    const apikey = apikeyFromHeader || apikeyFromParam;
+    const { apikey: apikeyFromQuery } = query;
+    const apikey = apikeyFromHeader || apikeyFromQuery;
 
     return this.memorySpaceService.createMemorySpace(apikey, body);
   }
@@ -55,11 +56,11 @@ export class MemorySpaceController {
   })
   async getMemorySpaces(
     @Headers() headers: BaseDto,
-    @Param() param: BaseDto
+    @Query() query: BaseDto
   ): Promise<GetMemorySpaceResDto> {
     const { apikey: apikeyFromHeader } = headers;
-    const { apikey: apikeyFromParam } = param;
-    const apikey = apikeyFromHeader || apikeyFromParam;
+    const { apikey: apikeyFromQuery } = query;
+    const apikey = apikeyFromHeader || apikeyFromQuery;
 
     return this.memorySpaceService.getMemorySpaces(apikey);
   }
@@ -72,11 +73,12 @@ export class MemorySpaceController {
   })
   async deleteMemorySpace(
     @Headers() headers: BaseDto,
+    @Query() query: BaseDto,
     @Param() param: DeleteMemorySpaceReqParamDto
   ): Promise<void> {
     const { apikey: apikeyFromHeader } = headers;
-    const { apikey: apikeyFromParam } = param;
-    const apikey = apikeyFromHeader || apikeyFromParam;
+    const { apikey: apikeyFromQuery } = query;
+    const apikey = apikeyFromHeader || apikeyFromQuery;
 
     return this.memorySpaceService.deleteMemorySpace(apikey, param);
   }

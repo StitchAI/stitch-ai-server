@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Headers, Param, Post, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Headers, Post, Query, UseInterceptors } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { BaseDto } from '~/dtos/request.dto';
@@ -36,12 +36,12 @@ export class MarketplaceController {
   })
   async createMarketListing(
     @Headers() headers: BaseDto,
-    @Param() param: BaseDto,
+    @Query() query: BaseDto,
     @Body() body: CreateMarketListingReqBodyDto
   ): Promise<void> {
     const { apikey: apikeyFromHeader } = headers;
-    const { apikey: apikeyFromParam } = param;
-    const apikey = apikeyFromHeader || apikeyFromParam;
+    const { apikey: apikeyFromQuery } = query;
+    const apikey = apikeyFromHeader || apikeyFromQuery;
 
     return this.marketplaceService.createMarketListing(apikey, body);
   }
@@ -54,12 +54,12 @@ export class MarketplaceController {
   })
   async delistMarketListing(
     @Headers() headers: BaseDto,
-    @Param() param: BaseDto,
+    @Query() query: BaseDto,
     @Body() body: DelistMarketListingReqBodyDto
   ): Promise<void> {
     const { apikey: apikeyFromHeader } = headers;
-    const { apikey: apikeyFromParam } = param;
-    const apikey = apikeyFromHeader || apikeyFromParam;
+    const { apikey: apikeyFromQuery } = query;
+    const apikey = apikeyFromHeader || apikeyFromQuery;
 
     return this.marketplaceService.delistMarketListing(apikey, body);
   }

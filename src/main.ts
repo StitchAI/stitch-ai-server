@@ -46,7 +46,7 @@ const bootstrap = async () => {
   };
   await RedocModule.setup('/api-docs', app, apiDocument, redocOptions);
 
-  await app.listen(8080);
+  await app.listen(8081);
 };
 
 bootstrap();

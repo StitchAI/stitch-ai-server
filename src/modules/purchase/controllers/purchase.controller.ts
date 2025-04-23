@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Headers, Param, Post, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Headers, Post, Query, UseInterceptors } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { BaseDto } from '~/dtos/request.dto';
@@ -23,11 +23,11 @@ export class PurchaseController {
   })
   async getUserPurchaseList(
     @Headers() headers: BaseDto,
-    @Param() param: BaseDto
+    @Query() query: BaseDto
   ): Promise<PurchaseDto[]> {
     const { apikey: apikeyFromHeader } = headers;
-    const { apikey: apikeyFromParam } = param;
-    const apikey = apikeyFromHeader || apikeyFromParam;
+    const { apikey: apikeyFromQuery } = query;
+    const apikey = apikeyFromHeader || apikeyFromQuery;
 
     return this.purchaseService.getUserPurchaseList(apikey);
   }
@@ -40,12 +40,12 @@ export class PurchaseController {
   })
   async createPurchase(
     @Headers() headers: BaseDto,
-    @Param() param: BaseDto,
+    @Query() query: BaseDto,
     @Body() body: CreatePurchaseReqBodyDto
   ) {
     const { apikey: apikeyFromHeader } = headers;
-    const { apikey: apikeyFromParam } = param;
-    const apikey = apikeyFromHeader || apikeyFromParam;
+    const { apikey: apikeyFromQuery } = query;
+    const apikey = apikeyFromHeader || apikeyFromQuery;
 
     return this.purchaseService.createPurchase(apikey, body);
   }
