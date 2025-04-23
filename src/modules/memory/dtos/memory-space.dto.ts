@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsArray, IsString } from 'class-validator';
+import { IsArray, IsOptional, IsString } from 'class-validator';
 
 import { MemorySpaceDto } from '~/entities/memory';
 
@@ -29,6 +29,14 @@ export class GetMemorySpaceResDto {
 }
 
 export class DeleteMemorySpaceReqParamDto {
+  @IsString()
+  @IsOptional()
+  @ApiProperty({
+    description: 'API 키. 테스트 키는 `demo-[walletAddress]`',
+    example: 'demo-0x1234567890123456789012345678901234567890',
+  })
+  apikey: string;
+
   @IsString()
   @ApiProperty({ description: '메모리 공간 이름', example: 'memory-space-1' })
   name: string;

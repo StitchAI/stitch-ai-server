@@ -1,7 +1,7 @@
-import { Body, Controller, Get, Headers, Post, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Headers, Param, Post, UseInterceptors } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
-import { BaseHeaderDto } from '~/dtos/request.dto';
+import { BaseDto } from '~/dtos/request.dto';
 import { MarketListing, MarketListingDto } from '~/entities/marketplace';
 import { PublicCorsInterceptor } from '~/interceptors/cors.interceptor';
 
@@ -35,10 +35,15 @@ export class MarketplaceController {
     description: '마켓 판매 목록 생성 성공, void 반환',
   })
   async createMarketListing(
-    @Headers() headers: BaseHeaderDto,
+    @Headers() headers: BaseDto,
+    @Param() param: BaseDto,
     @Body() body: CreateMarketListingReqBodyDto
   ): Promise<void> {
-    return this.marketplaceService.createMarketListing(headers, body);
+    const { apikey: apikeyFromHeader } = headers;
+    const { apikey: apikeyFromParam } = param;
+    const apikey = apikeyFromHeader || apikeyFromParam;
+
+    return this.marketplaceService.createMarketListing(apikey, body);
   }
 
   @Post('delist')
@@ -48,9 +53,14 @@ export class MarketplaceController {
     description: '마켓 판매 목록 비활성화 성공, void 반환',
   })
   async delistMarketListing(
-    @Headers() headers: BaseHeaderDto,
+    @Headers() headers: BaseDto,
+    @Param() param: BaseDto,
     @Body() body: DelistMarketListingReqBodyDto
   ): Promise<void> {
-    return this.marketplaceService.delistMarketListing(headers, body);
+    const { apikey: apikeyFromHeader } = headers;
+    const { apikey: apikeyFromParam } = param;
+    const apikey = apikeyFromHeader || apikeyFromParam;
+
+    return this.marketplaceService.delistMarketListing(apikey, body);
   }
 }

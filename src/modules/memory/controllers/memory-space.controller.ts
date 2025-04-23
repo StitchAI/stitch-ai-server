@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
-import { BaseHeaderDto } from '~/dtos/request.dto';
+import { BaseDto } from '~/dtos/request.dto';
 import { PublicCorsInterceptor } from '~/interceptors/cors.interceptor';
 
 import {
@@ -35,10 +35,15 @@ export class MemorySpaceController {
     type: CreateMemorySpaceResDto,
   })
   async createMemorySpace(
-    @Headers() headers: BaseHeaderDto,
+    @Headers() headers: BaseDto,
+    @Param() param: BaseDto,
     @Body() body: CreateMemorySpaceReqBodyDto
   ): Promise<CreateMemorySpaceResDto> {
-    return this.memorySpaceService.createMemorySpace(headers, body);
+    const { apikey: apikeyFromHeader } = headers;
+    const { apikey: apikeyFromParam } = param;
+    const apikey = apikeyFromHeader || apikeyFromParam;
+
+    return this.memorySpaceService.createMemorySpace(apikey, body);
   }
 
   @Get('spaces')
@@ -48,8 +53,15 @@ export class MemorySpaceController {
     description: '메모리 공간 목록 반환',
     type: GetMemorySpaceResDto,
   })
-  async getMemorySpaces(@Headers() headers: BaseHeaderDto): Promise<GetMemorySpaceResDto> {
-    return this.memorySpaceService.getMemorySpaces(headers);
+  async getMemorySpaces(
+    @Headers() headers: BaseDto,
+    @Param() param: BaseDto
+  ): Promise<GetMemorySpaceResDto> {
+    const { apikey: apikeyFromHeader } = headers;
+    const { apikey: apikeyFromParam } = param;
+    const apikey = apikeyFromHeader || apikeyFromParam;
+
+    return this.memorySpaceService.getMemorySpaces(apikey);
   }
 
   @Delete('space/:name')
@@ -59,9 +71,13 @@ export class MemorySpaceController {
     description: '메모리 공간 삭제 성공',
   })
   async deleteMemorySpace(
-    @Headers() headers: BaseHeaderDto,
+    @Headers() headers: BaseDto,
     @Param() param: DeleteMemorySpaceReqParamDto
   ): Promise<void> {
-    return this.memorySpaceService.deleteMemorySpace(headers, param);
+    const { apikey: apikeyFromHeader } = headers;
+    const { apikey: apikeyFromParam } = param;
+    const apikey = apikeyFromHeader || apikeyFromParam;
+
+    return this.memorySpaceService.deleteMemorySpace(apikey, param);
   }
 }

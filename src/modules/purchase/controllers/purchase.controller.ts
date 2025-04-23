@@ -1,7 +1,7 @@
-import { Body, Controller, Get, Headers, Post, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Headers, Param, Post, UseInterceptors } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
-import { BaseHeaderDto } from '~/dtos/request.dto';
+import { BaseDto } from '~/dtos/request.dto';
 import { PurchaseDto } from '~/entities/purchase';
 import { PublicCorsInterceptor } from '~/interceptors/cors.interceptor';
 
@@ -21,8 +21,15 @@ export class PurchaseController {
     description: '구매 목록 조회 성공, 구매 목록 배열 반환',
     type: [PurchaseDto],
   })
-  async getUserPurchaseList(@Headers() headers: BaseHeaderDto) {
-    return this.purchaseService.getUserPurchaseList(headers);
+  async getUserPurchaseList(
+    @Headers() headers: BaseDto,
+    @Param() param: BaseDto
+  ): Promise<PurchaseDto[]> {
+    const { apikey: apikeyFromHeader } = headers;
+    const { apikey: apikeyFromParam } = param;
+    const apikey = apikeyFromHeader || apikeyFromParam;
+
+    return this.purchaseService.getUserPurchaseList(apikey);
   }
 
   @Post()
@@ -31,7 +38,15 @@ export class PurchaseController {
     status: 200,
     description: '구매 생성 성공, void 반환',
   })
-  async createPurchase(@Headers() headers: BaseHeaderDto, @Body() body: CreatePurchaseReqBodyDto) {
-    return this.purchaseService.createPurchase(headers, body);
+  async createPurchase(
+    @Headers() headers: BaseDto,
+    @Param() param: BaseDto,
+    @Body() body: CreatePurchaseReqBodyDto
+  ) {
+    const { apikey: apikeyFromHeader } = headers;
+    const { apikey: apikeyFromParam } = param;
+    const apikey = apikeyFromHeader || apikeyFromParam;
+
+    return this.purchaseService.createPurchase(apikey, body);
   }
 }

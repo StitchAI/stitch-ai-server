@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { SHA3 } from 'crypto-js';
 import { Address, isAddressEqual } from 'viem';
 
-import { BaseHeaderDto } from '~/dtos/request.dto';
 import { ExternalMemoryDto } from '~/entities/memory';
 import { PrismaService } from '~/prisma/services/prisma.service';
 
@@ -17,10 +16,9 @@ export class MemoryExternalService {
   constructor(private readonly prisma: PrismaService) {}
 
   async createExternalMemory(
-    header: BaseHeaderDto,
+    apikey: string,
     body: CreateExternalMemoryReqBodyDto
   ): Promise<CreateExternalMemoryResDto> {
-    const { apikey } = header;
     const { operator, operatorLogo, name, message, data } = body;
 
     const user = await this.prisma.user.findUniqueOrThrow({
@@ -47,10 +45,9 @@ export class MemoryExternalService {
   }
 
   async getExternalMemory(
-    header: BaseHeaderDto,
+    apikey: string,
     param: GetExternalMemoryReqParamDto
   ): Promise<ExternalMemoryDto> {
-    const { apikey } = header;
     const { id } = param;
 
     const user = await this.prisma.user.findUniqueOrThrow({

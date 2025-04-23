@@ -5,6 +5,14 @@ import { MemoryDto } from '~/entities/memory';
 
 export class UploadMemoryReqParamDto {
   @IsString()
+  @IsOptional()
+  @ApiProperty({
+    description: 'API 키. 테스트 키는 `demo-[walletAddress]`',
+    example: 'demo-0x1234567890123456789012345678901234567890',
+  })
+  apikey: string;
+
+  @IsString()
   @ApiProperty({
     description: '메모리 공간 이름',
     example: 'memory-space-1',
@@ -45,6 +53,14 @@ export class UploadMemoryResDto {
 
 export class GetMemoriesInSpaceReqParamDto {
   @IsString()
+  @IsOptional()
+  @ApiProperty({
+    description: 'API 키. 테스트 키는 `demo-[walletAddress]`',
+    example: 'demo-0x1234567890123456789012345678901234567890',
+  })
+  apikey: string;
+
+  @IsString()
   @ApiProperty({
     description: '메모리 공간 이름',
     example: 'memory-space-1',
@@ -69,6 +85,14 @@ export class GetMemoriesInSpaceResDto {
 }
 
 export class GetMemoryReqParamDto {
+  @IsString()
+  @IsOptional()
+  @ApiProperty({
+    description: 'API 키. 테스트 키는 `demo-[walletAddress]`',
+    example: 'demo-0x1234567890123456789012345678901234567890',
+  })
+  apikey: string;
+
   @IsString()
   @ApiProperty({ description: '메모리 공간 이름', example: 'memory-space-1' })
   space: string;

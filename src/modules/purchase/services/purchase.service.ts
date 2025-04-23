@@ -3,7 +3,6 @@ import { SHA3 } from 'crypto-js';
 import { Address } from 'viem';
 import { isAddressEqual } from 'viem';
 
-import { BaseHeaderDto } from '~/dtos/request.dto';
 import { Purchase } from '~/entities/purchase';
 import { PrismaService } from '~/prisma/services/prisma.service';
 
@@ -13,8 +12,7 @@ import { CreatePurchaseReqBodyDto } from '../dtos/purchase.dto';
 export class PurchaseService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async getUserPurchaseList(headers: BaseHeaderDto): Promise<Purchase[]> {
-    const { apikey } = headers;
+  async getUserPurchaseList(apikey: string): Promise<Purchase[]> {
     const user = await this.prisma.user.findUniqueOrThrow({
       where: {
         apiKey: apikey,
@@ -106,8 +104,7 @@ export class PurchaseService {
     return purchaseList;
   }
 
-  async createPurchase(headers: BaseHeaderDto, body: CreatePurchaseReqBodyDto): Promise<void> {
-    const { apikey } = headers;
+  async createPurchase(apikey: string, body: CreatePurchaseReqBodyDto): Promise<void> {
     const { buyerId, listingId, internalListingId, txHash, price } = body;
 
     const user = await this.prisma.user.findUniqueOrThrow({

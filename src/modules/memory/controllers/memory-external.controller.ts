@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Headers, Param, Post, UseInterceptors } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
-import { BaseHeaderDto } from '~/dtos/request.dto';
+import { BaseDto } from '~/dtos/request.dto';
 import { ExternalMemoryDto } from '~/entities/memory';
 import { PublicCorsInterceptor } from '~/interceptors/cors.interceptor';
 
@@ -26,10 +26,15 @@ export class MemoryExternalController {
     type: CreateExternalMemoryResDto,
   })
   async createExternalMemory(
-    @Headers() headers: BaseHeaderDto,
+    @Headers() headers: BaseDto,
+    @Param() param: BaseDto,
     @Body() body: CreateExternalMemoryReqBodyDto
   ): Promise<CreateExternalMemoryResDto> {
-    return this.memoryExternalService.createExternalMemory(headers, body);
+    const { apikey: apikeyFromHeader } = headers;
+    const { apikey: apikeyFromParam } = param;
+    const apikey = apikeyFromHeader || apikeyFromParam;
+
+    return this.memoryExternalService.createExternalMemory(apikey, body);
   }
 
   @Get('external/:id')
@@ -40,9 +45,13 @@ export class MemoryExternalController {
     type: ExternalMemoryDto,
   })
   async getExternalMemory(
-    @Headers() headers: BaseHeaderDto,
+    @Headers() headers: BaseDto,
     @Param() param: GetExternalMemoryReqParamDto
   ): Promise<ExternalMemoryDto> {
-    return this.memoryExternalService.getExternalMemory(headers, param);
+    const { apikey: apikeyFromHeader } = headers;
+    const { apikey: apikeyFromParam } = param;
+    const apikey = apikeyFromHeader || apikeyFromParam;
+
+    return this.memoryExternalService.getExternalMemory(apikey, param);
   }
 }

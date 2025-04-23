@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { SHA3 } from 'crypto-js';
 
-import { BaseHeaderDto } from '~/dtos/request.dto';
 import { PrismaService } from '~/prisma/services/prisma.service';
 
 import {
@@ -16,10 +15,9 @@ export class MemorySpaceService {
   constructor(private readonly prisma: PrismaService) {}
 
   async createMemorySpace(
-    header: BaseHeaderDto,
+    apikey: string,
     body: CreateMemorySpaceReqBodyDto
   ): Promise<CreateMemorySpaceResDto> {
-    const { apikey } = header;
     const { name } = body;
 
     const hash = SHA3(`${apikey}_${name}_${Date.now()}`, { outputLength: 256 }).toString();
@@ -38,9 +36,7 @@ export class MemorySpaceService {
     return { id: created.id, name: created.name };
   }
 
-  async getMemorySpaces(header: BaseHeaderDto): Promise<GetMemorySpaceResDto> {
-    const { apikey } = header;
-
+  async getMemorySpaces(apikey: string): Promise<GetMemorySpaceResDto> {
     const user = await this.prisma.user.findUniqueOrThrow({
       where: { apiKey: apikey },
     });
@@ -60,11 +56,7 @@ export class MemorySpaceService {
     return { data };
   }
 
-  async deleteMemorySpace(
-    header: BaseHeaderDto,
-    param: DeleteMemorySpaceReqParamDto
-  ): Promise<void> {
-    const { apikey } = header;
+  async deleteMemorySpace(apikey: string, param: DeleteMemorySpaceReqParamDto): Promise<void> {
     const { name } = param;
 
     const user = await this.prisma.user.findUniqueOrThrow({

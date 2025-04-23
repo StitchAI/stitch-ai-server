@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Headers, Param, Post, UseInterceptors } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
-import { BaseHeaderDto } from '~/dtos/request.dto';
+import { BaseDto } from '~/dtos/request.dto';
 import { MemoryDto } from '~/entities/memory';
 import { PublicCorsInterceptor } from '~/interceptors/cors.interceptor';
 
@@ -29,11 +29,15 @@ export class MemoryController {
     type: UploadMemoryResDto,
   })
   async uploadMemory(
-    @Headers() headers: BaseHeaderDto,
+    @Headers() headers: BaseDto,
     @Param() param: UploadMemoryReqParamDto,
     @Body() body: UploadMemoryReqBodyDto
   ): Promise<UploadMemoryResDto> {
-    return this.memoryService.uploadMemory(headers, param, body);
+    const { apikey: apikeyFromHeader } = headers;
+    const { apikey: apikeyFromParam } = param;
+    const apikey = apikeyFromHeader || apikeyFromParam;
+
+    return this.memoryService.uploadMemory(apikey, param, body);
   }
 
   @Get(':space')
@@ -44,10 +48,14 @@ export class MemoryController {
     type: GetMemoriesInSpaceResDto,
   })
   async getMemoriesInSpace(
-    @Headers() headers: BaseHeaderDto,
+    @Headers() headers: BaseDto,
     @Param() param: GetMemoriesInSpaceReqParamDto
   ): Promise<GetMemoriesInSpaceResDto> {
-    return this.memoryService.getMemoriesInSpace(headers, param);
+    const { apikey: apikeyFromHeader } = headers;
+    const { apikey: apikeyFromParam } = param;
+    const apikey = apikeyFromHeader || apikeyFromParam;
+
+    return this.memoryService.getMemoriesInSpace(apikey, param);
   }
 
   @Get(':space/:id')
@@ -58,9 +66,13 @@ export class MemoryController {
     type: GetMemoriesInSpaceResDto,
   })
   async getMemory(
-    @Headers() headers: BaseHeaderDto,
+    @Headers() headers: BaseDto,
     @Param() param: GetMemoryReqParamDto
   ): Promise<MemoryDto> {
-    return this.memoryService.getMemory(headers, param);
+    const { apikey: apikeyFromHeader } = headers;
+    const { apikey: apikeyFromParam } = param;
+    const apikey = apikeyFromHeader || apikeyFromParam;
+
+    return this.memoryService.getMemory(apikey, param);
   }
 }

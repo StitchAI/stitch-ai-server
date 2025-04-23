@@ -1,7 +1,6 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { Address, isAddressEqual, parseUnits } from 'viem';
 
-import { BaseHeaderDto } from '~/dtos/request.dto';
 import { MarketListing } from '~/entities/marketplace';
 import { PrismaService } from '~/prisma/services/prisma.service';
 
@@ -77,11 +76,7 @@ export class MarketplaceService {
     return marketListings;
   }
 
-  async createMarketListing(
-    header: BaseHeaderDto,
-    body: CreateMarketListingReqBodyDto
-  ): Promise<void> {
-    const { apikey } = header;
+  async createMarketListing(apikey: string, body: CreateMarketListingReqBodyDto): Promise<void> {
     const { price, active, internalId, txHash, memoryType, memoryId, externalMemoryId, sellerId } =
       body;
 
@@ -116,11 +111,7 @@ export class MarketplaceService {
     });
   }
 
-  async delistMarketListing(
-    header: BaseHeaderDto,
-    body: DelistMarketListingReqBodyDto
-  ): Promise<void> {
-    const { apikey } = header;
+  async delistMarketListing(apikey: string, body: DelistMarketListingReqBodyDto): Promise<void> {
     const { id } = body;
 
     const user = await this.prisma.user.findUniqueOrThrow({

@@ -41,6 +41,14 @@ export class CreateExternalMemoryResDto {
 
 export class GetExternalMemoryReqParamDto {
   @IsString()
+  @IsOptional()
+  @ApiProperty({
+    description: 'API 키. 테스트 키는 `demo-[walletAddress]`',
+    example: 'demo-0x1234567890123456789012345678901234567890',
+  })
+  apikey: string;
+
+  @IsString()
   @ApiProperty({
     description: '외부 메모리 id',
     example: 'f3ff4f073ed24d62051c8d7bb73418b95db2f6ff9e4441af466f6d98',
